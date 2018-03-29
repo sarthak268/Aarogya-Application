@@ -21,6 +21,7 @@ files = file.readlines()
 for i in range (len(files)):
 	files[i] = files[i].rstrip().split(' ')
 
+
 def make_separate_arrays(array):
 	centers = []
 	
@@ -57,29 +58,30 @@ def make_separate_arrays(array):
 
 centers_for_diseases = make_separate_arrays(files)
 
-def find_nearest_doctors(disease):	
-	for url in search('Doctors in ' + disease, tld='es', lang='es', stop=20):
-		print("These are some useful links according to your requirements : \n", url)
+from geopy.geocoders import Nominatim
+
+def getplace(lon, lat):
+	# give lat and lon in string
+    geolocator = Nominatim()
+    location = geolocator.reverse(lon + ', ' + lat)
+    return location.address
+
+def find_nearest_doctors(lon, lat):	
+	area = getplace(lon, lat)
+	print ("These are some useful links according to your requirements : \n")
+	for url in search('Doctors in ' + area, tld='es', lang='es', stop=20):
+		print(url)
 
 def prevention_methods(disease):
 	links = []
-	for url in search('Prevention methods of ' + disease, tld='es', lang='es', stop=20):
+	for url in search('Prevention methods of ' + disease, tld = 'es', lang = 'es', stop = 20):
 		links.append(url)
 	ind = random.randint(0,len(links) - 1)	
 	webbrowser.open_new_tab(links[ind])
 
-prevention_methods('dengue')
-
-
-
-
-
-
-
-
-
-
-
+def doctor_speciality(speciality):
+	for url in search('Doctors for ' + speciality, tld='es', lang='es', stop=20):
+		print(url)
 
 
 
