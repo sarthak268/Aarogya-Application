@@ -88,4 +88,6 @@ def doctor_speciality(speciality):
 		print(url)
 
 
+a=find_nearest_doctors(76.89556727129242, 28.72403411836996)
+print(a)
 

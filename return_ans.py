@@ -2,6 +2,7 @@ import math
 import time, random
 from googlesearch import search
 import webbrowser
+from geopy.geocoders import Nominatim
 
 def deg2rad(deg):
 	return (deg*math.pi / 180)
@@ -14,13 +15,6 @@ def distance (lat1, long1, lat2, long2):
 	c = 2*math.atan2(math.sqrt(a), math.sqrt(1-a))
 	d = r*c
 	return d #in km
-
-file = open("/Users/sarthakbhagat/Desktop/aarogya_heatmap/data.txt","r")
-files = file.readlines()
-
-for i in range (len(files)):
-	files[i] = files[i].rstrip().split(' ')
-
 
 def make_separate_arrays(array):
 	centers = []
@@ -56,9 +50,17 @@ def make_separate_arrays(array):
 						centers.append(['cancer', array[i][0], array[i][1]])
 	return (centers)
 
-centers_for_diseases = make_separate_arrays(files)
+def get_all_centers():
+	file = open("/Users/sarthakbhagat/Desktop/aarogya_heatmap/data.txt","r")
+	files = file.readlines()
 
-from geopy.geocoders import Nominatim
+	for i in range (len(files)):
+		files[i] = files[i].rstrip().split(' ')
+
+	centers_for_diseases = make_separate_arrays(files)
+	return centers_for_diseases
+
+
 
 def getplace(lon, lat):
 	# give lat and lon in string
@@ -82,6 +84,3 @@ def prevention_methods(disease):
 def doctor_speciality(speciality):
 	for url in search('Doctors for ' + speciality, tld='es', lang='es', stop=20):
 		print(url)
-
-
-
